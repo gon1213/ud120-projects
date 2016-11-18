@@ -28,12 +28,34 @@ plt.show()
 ################################################################################
 
 
-### your code here!  name your classifier object clf if you want the 
+### your code here!  name your classifier object clf if you want the
 ### visualization code (prettyPicture) to show you the decision boundary
+from time import time
+from sklearn import tree
+from sklearn import naive_bayes #GaussianNB, MultinomialNB, BernoulliNB
+from sklearn import svm #svm, NuSVC, LinearSVC
+from sklearn import neighbors
+from sklearn import ensemble #AdaBoost ,RandomForest
+
+from sklearn.metrics import accuracy_score
+#from sklearn.model_selection import cross_val_score #v0.18
+# from sklearn.cross_validation import cross_val_score
+##############################################
+def fit_pred():
+    # set time = 0
+    t0 = time()
+    clf.fit(features_train,labels_train)
+    pred=clf.predict(features_test)
+
+    # print time used
+    print "training time:", round(time()-t0, 3), "s"
+    #print accuracy score
+    print "accuracy:",accuracy_score(pred,labels_test)
+    # show_graph()
 
 
-
-
+clf = naive_bayes.GaussianNB()
+fit_pred()
 
 
 
