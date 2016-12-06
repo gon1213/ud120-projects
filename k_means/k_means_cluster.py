@@ -48,6 +48,7 @@ data_dict.pop("TOTAL", 0)
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
+feature_3 = "total_payments"
 poi  = "poi"
 features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
@@ -64,7 +65,13 @@ plt.show()
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
-
+from sklearn.cluster import KMeans
+# features_list = ["poi", feature_1, feature_2, feature_3]
+# data2 = featureFormat(data_dict, features_list )
+# poi, finance_features = targetFeatureSplit( data2 )
+clf = KMeans(n_clusters=2)
+pred = clf.fit_predict( finance_features )
+Draw(pred, finance_features, poi, name="clusters_before_scaling.png", f1_name=feature_1, f2_name=feature_2)
 
 
 
@@ -74,3 +81,41 @@ try:
     Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
 except NameError:
     print "no predictions object named pred found, no clusters to plot"
+
+
+
+
+
+
+
+def find_max_min (data_dict, item):
+    from sklearn.preprocessing import MinMaxScaler
+    item_list = []
+
+    for data in data_dict:
+        if data_dict[data][item]=="NaN":
+            pass
+        else:
+            item_list.append(float(data_dict[data][item]))
+    item_max = max(item_list)
+    item_min = min(item_list)
+    print item ,"'s maximun: " ,item_max, "  ",item , "'s min: ", item_min
+# stock_option=[]
+# for data in data_dict:
+#     if data_dict[data]["exercised_stock_options"]=="NaN":
+#         pass
+#     else:
+#         stock_option.append(float(data_dict[data]["exercised_stock_options"]))
+# max_stock_option = max(stock_option)
+# min_stock_option = min(stock_option)
+
+# print "stock_option's maximun : ", max_stock_option , "stock option 's minimun: ", min_stock_option
+
+find_max_min(data_dict, "exercised_stock_options")
+find_max_min(data_dict, "salary")
+
+
+
+
+
+
