@@ -99,20 +99,24 @@ def find_max_min (data_dict, item):
             item_list.append(float(data_dict[data][item]))
     item_max = max(item_list)
     item_min = min(item_list)
+
+    #What would be the rescaled value of a "salary" feature that had an original value of $200,000, and an "exercised_stock_options" feature of $1 million?
+    if item == "salary":
+        number = [[200000.0]]
+    if item == "exercised_stock_options":
+        number = [[1000000.0]]
+
+    weight = item_list
+    scaler = MinMaxScaler()
+    rescale_weight = scaler.fit(weight)
+    rescale_number = scaler.transform(number)
+
+
     print item ,"'s maximun: " ,item_max, "  ",item , "'s min: ", item_min
-# stock_option=[]
-# for data in data_dict:
-#     if data_dict[data]["exercised_stock_options"]=="NaN":
-#         pass
-#     else:
-#         stock_option.append(float(data_dict[data]["exercised_stock_options"]))
-# max_stock_option = max(stock_option)
-# min_stock_option = min(stock_option)
-
-# print "stock_option's maximun : ", max_stock_option , "stock option 's minimun: ", min_stock_option
-
+    print item, " resalce of  ", number , " is : ",rescale_number
 find_max_min(data_dict, "exercised_stock_options")
 find_max_min(data_dict, "salary")
+
 
 
 
