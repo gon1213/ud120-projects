@@ -66,7 +66,7 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
 
         ### use str.replace() to remove any instances of the words
         ### ["sara", "shackleton", "chris", "germani"]
-        expection = ["sara", "shackleton", "chris", "germani"]
+        expection = ["sara", "shackleton", "chris", "germani","sshacklensf","cgermannsf"]
         for unwanted_word in expection:
             stemmed_email = stemmed_email.replace(unwanted_word, "")
         # clear_email = stemmed_email.replace(expection, "")
@@ -90,7 +90,6 @@ print "emails processed"
 from_sara.close()
 from_chris.close()
 
-print from_data
 
 pickle.dump( word_data, open("your_word_data.pkl", "w") )
 pickle.dump( from_data, open("your_email_authors.pkl", "w") )

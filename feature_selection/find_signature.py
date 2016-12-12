@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 import pickle
-import numpy
-numpy.random.seed(42)
+import numpy as np
+np.random.seed(42)
 
 
 ### The words (features) and authors (labels), already largely processed.
@@ -35,9 +35,37 @@ features_test  = vectorizer.transform(features_test).toarray()
 features_train = features_train[:150].toarray()
 labels_train   = labels_train[:150]
 
-
+#limit to 150 features
+print "number of features: " , len(features_train)
 
 ### your code goes here
+from sklearn import tree
+clf = tree.DecisionTreeClassifier()
+clf.fit(features_train,labels_train)
+pred = clf.predict(features_test)
 
+from sklearn.metrics import accuracy_score
+acc = accuracy_score(pred, labels_test)
+print "score of the test data: ", acc
+
+#using lasso to find top of the important data
+important = clf.feature_importances_
+top_feature = np.argmax(important)
+
+
+print "top important feature's number: ", top_feature
+print "top important feature's score: ", np.max(important)
+
+
+name_list = vectorizer.get_feature_names()
+print "name of that feature: ", name_list[top_feature]
+
+list_outlier = []
+for i in important:
+	if i > 0.2:
+		list_outlier.append(i)
+
+print "list of outliers: " , list_outlier
+print "number of feature with more than 0.2 importance: ", len(list_outlier)
 
 
