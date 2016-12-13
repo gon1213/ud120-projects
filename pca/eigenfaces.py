@@ -66,12 +66,17 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random
 ###############################################################################
 # Compute a PCA (eigenfaces) on the face dataset (treated as unlabeled
 # dataset): unsupervised feature extraction / dimensionality reduction
-n_components = 150
+# 
+# try different number of components 
+# check the F1 score changes
+# 150~200 will be a good number to use, 300 is d
+n_components = 250
 
 print "Extracting the top %d eigenfaces from %d faces" % (n_components, X_train.shape[0])
 t0 = time()
 pca = RandomizedPCA(n_components=n_components, whiten=True).fit(X_train)
 print "done in %0.3fs" % (time() - t0)
+# print "variance ratio: ", pca.explained_variance_ratio_
 
 eigenfaces = pca.components_.reshape((n_components, h, w))
 
@@ -112,35 +117,35 @@ print confusion_matrix(y_test, y_pred, labels=range(n_classes))
 
 
 ###############################################################################
-# Qualitative evaluation of the predictions using matplotlib
+# # Qualitative evaluation of the predictions using matplotlib
 
-def plot_gallery(images, titles, h, w, n_row=3, n_col=4):
-    """Helper function to plot a gallery of portraits"""
-    pl.figure(figsize=(1.8 * n_col, 2.4 * n_row))
-    pl.subplots_adjust(bottom=0, left=.01, right=.99, top=.90, hspace=.35)
-    for i in range(n_row * n_col):
-        pl.subplot(n_row, n_col, i + 1)
-        pl.imshow(images[i].reshape((h, w)), cmap=pl.cm.gray)
-        pl.title(titles[i], size=12)
-        pl.xticks(())
-        pl.yticks(())
+# def plot_gallery(images, titles, h, w, n_row=3, n_col=4):
+#     """Helper function to plot a gallery of portraits"""
+#     pl.figure(figsize=(1.8 * n_col, 2.4 * n_row))
+#     pl.subplots_adjust(bottom=0, left=.01, right=.99, top=.90, hspace=.35)
+#     for i in range(n_row * n_col):
+#         pl.subplot(n_row, n_col, i + 1)
+#         pl.imshow(images[i].reshape((h, w)), cmap=pl.cm.gray)
+#         pl.title(titles[i], size=12)
+#         pl.xticks(())
+#         pl.yticks(())
 
 
-# plot the result of the prediction on a portion of the test set
+# # plot the result of the prediction on a portion of the test set
 
-def title(y_pred, y_test, target_names, i):
-    pred_name = target_names[y_pred[i]].rsplit(' ', 1)[-1]
-    true_name = target_names[y_test[i]].rsplit(' ', 1)[-1]
-    return 'predicted: %s\ntrue:      %s' % (pred_name, true_name)
+# def title(y_pred, y_test, target_names, i):
+#     pred_name = target_names[y_pred[i]].rsplit(' ', 1)[-1]
+#     true_name = target_names[y_test[i]].rsplit(' ', 1)[-1]
+#     return 'predicted: %s\ntrue:      %s' % (pred_name, true_name)
 
-prediction_titles = [title(y_pred, y_test, target_names, i)
-                         for i in range(y_pred.shape[0])]
+# prediction_titles = [title(y_pred, y_test, target_names, i)
+#                          for i in range(y_pred.shape[0])]
 
-plot_gallery(X_test, prediction_titles, h, w)
+# plot_gallery(X_test, prediction_titles, h, w)
 
-# plot the gallery of the most significative eigenfaces
+# # plot the gallery of the most significative eigenfaces
 
-eigenface_titles = ["eigenface %d" % i for i in range(eigenfaces.shape[0])]
-plot_gallery(eigenfaces, eigenface_titles, h, w)
+# eigenface_titles = ["eigenface %d" % i for i in range(eigenfaces.shape[0])]
+# plot_gallery(eigenfaces, eigenface_titles, h, w)
 
-pl.show()
+# pl.show()
