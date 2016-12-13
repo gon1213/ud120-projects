@@ -69,7 +69,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random
 # 
 # try different number of components 
 # check the F1 score changes
-# 150~200 will be a good number to use, 300 is d
+# 150~200 will be a good number to use, f1's score for 250 is decreasing 
+# which mean that it is start overfiting the data.
+# 
 n_components = 250
 
 print "Extracting the top %d eigenfaces from %d faces" % (n_components, X_train.shape[0])
