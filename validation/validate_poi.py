@@ -26,7 +26,28 @@ data = featureFormat(data_dict, features_list)
 labels, features = targetFeatureSplit(data)
 
 
-
 ### it's all yours from here forward!  
+# using Decision tree for machine training
+from sklearn import tree
+clf = tree.DecisionTreeClassifier()
+
+## using the same data to train and predict
+# clf.fit(features, labels)
+# pred1 = clf.predict(features)
+# from sklearn.metrics import accuracy_score
+# print "overfit: ", accuracy_score(pred1, labels)
+# 0.989473684211
 
 
+# using cross validation to split the data set 
+from sklearn import cross_validation
+feature_train, feature_test, label_train, label_test = cross_validation.train_test_split(features, labels, test_size=.3, random_state=42)
+
+
+clf.fit(feature_train, label_train)
+pred=clf.predict(feature_test)
+
+#print accuracy score
+from sklearn.metrics import accuracy_score
+print "accuracy:",accuracy_score(pred,label_test)
+#0.724137931034
